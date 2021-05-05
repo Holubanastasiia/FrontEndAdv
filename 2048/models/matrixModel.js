@@ -45,6 +45,7 @@ MatrixModel.prototype.startNewGame = function () {
 MatrixModel.prototype.makeActionByKey = function (key) {
 
     var i = getRandomGrid();
+
     var j = getRandomGrid();
 
 
@@ -58,23 +59,23 @@ MatrixModel.prototype.makeActionByKey = function (key) {
 
 }
 
-MatrixModel.prototype.make = function () {
+// MatrixModel.prototype.make = function () {
 
-    document.addEventListener('keydown', function (event) {
+//     document.addEventListener('keydown', function (event) {
 
-        if (event.code == 'ArrowLeft') {
-            var len = this.attributes.grid.length;
-            var arr = this.grid;
-            for (i = 0; i < len; i += 1) {
-                arr.unshift(arr[i]);
-            }
-            arr.splice(0, len);
+//         if (event.code == 'ArrowLeft') {
+//             var len = this.attributes.grid.length;
+//             var arr = this.grid;
+//             for (i = 0; i < len; i += 1) {
+//                 arr.unshift(arr[i]);
+//             }
+//             arr.splice(0, len);
 
-        }
-        console.log(len);
-    });
-    this.publish('changeData');
-}
+//         }
+//         console.log(len);
+//     });
+//     this.publish('changeData');
+// }
 
 
 
