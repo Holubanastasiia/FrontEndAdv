@@ -53,77 +53,70 @@ MatrixModel.prototype.makeActionByKey = function (key) {
     this.publish('changeData');
 
 
-    if (key === 'ArrowLeft') {
-        var len = this.attributes.grid.length;
-        var arr = this.attributes.grid;
+    if (key === 'left') {
+        function moveLeftByLine(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                moveLeftByCell(arr, i);
+            }
+        }
 
-        // for (i = 0; i < len; i += 1) {
-        //     if (arr[i][j] != "") {
-        //         arr.unshift(arr[i][j]);
-        //     }
-        // }
-        //     function moveLeftByLine(arr) {
-        //         for (let i = 0; i < arr.length; i++) {
-        //             moveLeftByCell(arr, i);
-        //         }
-        //     }
-        //     this.publish('changeData');
+        function moveLeftByCell(arr, i) {
+            for (let j = 0; j < arr[i].length; j++) {
+                if (arr[i][j] == "") {
+                    continue;
+                }
+                // проверяем, можем ли добавить число справа
+                let l = j;
+                while (++l < arr[i].length) {
+                    if (arr[i][l] == arr[i][j]) {
+                        break;
+                    } else if (arr[i][l] != "") {
+                        l = j;
+                        break;
+                    }
+                }
 
-        //     function moveLeftByCell(arr, i) {
-        //         for (let j = 0; j < arr[i].length; j++) {
-        //             // Если это ноль - пропускаем
-        //             if (arr[i][j] == "") {
-        //                 continue;
-        //             }
+                // если можем - добавляем
+                if (l < arr[i].length && l > j) {
+                    arr[i][j] = (+arr[i][l] * 2) + "";
+                    arr[i][l] = "";
+                }
+                // Проверяем, можем ли мы подвинуть число влево и если да, то на сколько позиций
+                let k = j;
+                while (--k >= -1) {
+                    if (arr[i][k] != "") {
+                        k++;
+                        break;
+                    }
+                }
+                // если можем - двигаем
+                if (k >= 0 && k < j) {
+                    arr[i][k] = arr[i][j];
+                    arr[i][j] = "";
+                }
+            }
+        }
+        moveLeftByLine(this.attributes.grid);
+        this.publish('changeData');
+    }
 
-        //             // проверяем, можем ли добавить число справа
-        //             let l = j;
-        //             while (++l < arr[i].length) {
-        //                 if (arr[i][l] == arr[i][j]) {
-        //                     break;
-        //                 } else if (arr[i][l] != "") {
-        //                     l = j;
-        //                     break;
-        //                 }
-        //             }
+    if (key === 'right') {
+        function moveRightByLine(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                moveRightByCell(arr, i);
+            }
+        }
 
-        //             // если можем - добавляем
-        //             if (l < arr[i].length && l > j) {
-        //                 arr[i][j] = (+arr[i][l] * 2) + "";
-        //                 arr[i][l] = "";
-        //             }
-
-        //             // Проверяем, можем ли мы подвинуть число влево и если да, то на сколько позиций
-        //             let k = j;
-        //             while (--k >= -1) {
-        //                 if (arr[i][k] != "") {
-        //                     k++;
-        //                     break;
-        //                 }
-        //             }
-
-        //             // если можем - двигаем
-        //             if (k >= 0 && k < j) {
-        //                 arr[i][k] = arr[i][j];
-        //                 arr[i][j] = "";
-        //             }
-        //         }
-        //     }
-        //     this.publish('changeData');
-        //     function showGrid(flag) {
-        //         console.log('----- ' + flag + ' -----');
-
-        //         for (let i = 0; i < grid.length; i++) {
-        //             console.log(grid[i].join(' '));
-        //         }
-        //     }
-
-        //     showGrid("main");
-        //     moveLeftByLine(this.attributes.grid);
-        //     showGrid("after left move");
-        // 
-        // this.publish('changeData');
-        // console.log(this.attributes.grid[i][j]);
+        function moveRightByCell(arr, i) {
+            for (let j = 0; j < arr[i].length; j++) {
+                // Если это ноль - пропускаем
+                if (arr[i][j] == "") {
+                    continue;
+                }
+            }
+        }
+        moveRightByLine(this.attributes.grid);
+        this.publish('changeData');
     }
 }
 
