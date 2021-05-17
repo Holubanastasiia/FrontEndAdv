@@ -42,6 +42,10 @@ MatrixModel.prototype.startNewGame = function () {
 
 }
 
+// makeActionByKey(key) {
+
+// }
+
 
 MatrixModel.prototype.makeActionByKey = function (key) {
     var i = getRandomGrid();
@@ -101,6 +105,8 @@ MatrixModel.prototype.makeActionByKey = function (key) {
     }
 
     if (key === 'right') {
+
+
         function moveRightByLine(arr) {
             for (let i = 0; i < arr.length; i++) {
                 moveRightByCell(arr, i);
@@ -108,19 +114,47 @@ MatrixModel.prototype.makeActionByKey = function (key) {
         }
 
         function moveRightByCell(arr, i) {
-            for (let j = 0; j < arr[i].length; j++) {
+            for (let j = arr[i].length - 1; j >= 0; j--) {
                 // Если это ноль - пропускаем
                 if (arr[i][j] == "") {
                     continue;
                 }
+
+                // проверяем, можем ли добавить число справа
+                let l = j;
+                while (--l >= 0) {
+                    if (arr[i][l] == arr[i][j]) {
+                        break;
+                    } else if (arr[i][l] != "") {
+                        l = j;
+                        break;
+                    }
+                }
+
+                // если можем - добавляем
+                if (l >= 0 && l < j) {
+                    arr[i][j] = (+arr[i][l] * 2) + "";
+                    arr[i][l] = "";
+                }
+
+                // Проверяем, можем ли мы подвинуть число вправо и если да, то на сколько позиций
+                let k = j;
+                while (++k <= arr[i].length) {
+                    if (arr[i][k] != "") {
+                        k--;
+                        break;
+                    }
+                }
+
+                // если можем - двигаем
+                if (k < arr[i].length && k > j) {
+                    arr[i][k] = arr[i][j];
+                    arr[i][j] = "";
+                }
             }
+
         }
-        moveRightByLine(this.attributes.grid);
-        this.publish('changeData');
     }
+    moveRightByLine(this.attributes.grid);
+    this.publish('changeData');
 }
-
-
-
-
-
