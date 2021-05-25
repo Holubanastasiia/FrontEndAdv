@@ -12,12 +12,3 @@ function getFinalOpenedDoors(numDoors) {
     }
     return doors;
 }
-
-
-
-// getFinalOpenedDoors(78)
-// console.log(getFinalOpenedDoors(4));
-// console.log(getFinalOpenedDoors(10));
-// console.log(getFinalOpenedDoors(11));
-// console.log(getFinalOpenedDoors(48));
-// console.log(getFinalOpenedDoors(60));
